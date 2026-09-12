@@ -2,38 +2,16 @@ import re
 from typing import List, Optional, Dict
 from app.providers.base import TopicProvider
 from app.models.domain import TopicResult
+from app.core.lexicons.loader import LexiconLoader
 
 class LocalTopicProvider(TopicProvider):
     """
     Lightweight rule and keyword/semantic cluster provider for regulatory e-consultation.
+    Loads topic and clause rule definitions from external configuration.
     """
 
-    TOPIC_DEFINITIONS: Dict[str, Dict[str, any]] = {
-        "Compliance Timelines & MSME Impact": {
-            "keywords": ["timeline", "window", "msme", "startups", "startup", "grace period", "transition", "turnover", "exemption", "small business", "phase-in", "burden"],
-            "section_clues": ["clause 7", "compliance timelines", "msme", "transition"]
-        },
-        "Algorithmic Transparency & AI Audits": {
-            "keywords": ["algorithmic", "algorithm", "audit", "bias", "explainability", "neural", "shap", "lime", "code disclosure", "training dataset", "automated", "model"],
-            "section_clues": ["clause 12", "algorithmic transparency", "audit", "ai"]
-        },
-        "Data Localization & Infrastructure": {
-            "keywords": ["localization", "storage", "local storage", "cloud", "data center", "sovereignty", "domestic", "mirror cloud", "subsidies", "zero-trust"],
-            "section_clues": ["clause 3", "data localization", "storage", "infrastructure"]
-        },
-        "Grievance Redressal & Consumer Rights": {
-            "keywords": ["grievance", "redressal", "complaint", "48-hour", "resolution", "fraud", "regional language", "ombudsman", "consumer", "transparency report"],
-            "section_clues": ["clause 15", "grievance redressal", "consumer"]
-        },
-        "Cross-Border Data Flows & Global Trade": {
-            "keywords": ["cross-border", "trade", "bpo", "saas", "adequacy", "reciprocal", "iso/iec", "apec", "oecd", "negative list", "export"],
-            "section_clues": ["clause 19", "cross-border", "international"]
-        },
-        "Penalties, Appeals & Safe Harbor": {
-            "keywords": ["penalty", "penalties", "safe harbor", "turnover", "cure notice", "tribunal", "proportional", "deliberate", "procedural lapse", "punitive"],
-            "section_clues": ["clause 23", "penalty", "safe harbor", "appeals"]
-        }
-    }
+    def __init__(self, topic_definitions: Optional[Dict[str, Dict[str, any]]] = None):
+        self.topic_definitions = topic_definitions or LexiconLoader.load_topics()
 
     def classify(self, text: str, section_hint: Optional[str] = None) -> TopicResult:
         clean_text = text.lower()
@@ -42,12 +20,12 @@ class LocalTopicProvider(TopicProvider):
         scores: Dict[str, float] = {}
         matched_phrases: Dict[str, List[str]] = {}
 
-        for topic, config in self.TOPIC_DEFINITIONS.items():
+        for topic, config in self.topic_definitions.items():
             score = 0.0
             phrases = []
 
             # Check section hint match
-            for clue in config["section_clues"]:
+            for clue in config.get("section_clues", []):
                 if clue in hint_clean:
                     score += 5.0
                     phrases.append(clue)
@@ -56,13 +34,21 @@ class LocalTopicProvider(TopicProvider):
                     phrases.append(clue)
 
             # Check keyword match
-            for kw in config["keywords"]:
+            for kw in config.get("keywords", []):
                 if re.search(r"\b" + re.escape(kw) + r"\b", clean_text):
                     score += 1.5
                     phrases.append(kw)
 
             scores[topic] = score
             matched_phrases[topic] = phrases
+
+        if not scores:
+            return TopicResult(
+                primary_topic="General Regulatory Provisions",
+                secondary_topics=[],
+                confidence=0.5,
+                key_phrases=["general regulatory consultation"]
+            )
 
         # Sort topics by score
         sorted_topics = sorted(scores.items(), key=lambda x: x[1], reverse=True)

@@ -1,0 +1,56 @@
+{
+  "Compliance Timelines & MSME Impact": {
+    "keywords": [
+      "timeline", "window", "msme", "startups", "startup", "grace period",
+      "transition", "turnover", "exemption", "small business", "phase-in", "burden"
+    ],
+    "section_clues": [
+      "clause 7", "compliance timelines", "msme", "transition", "timelines"
+    ]
+  },
+  "Algorithmic Transparency & AI Audits": {
+    "keywords": [
+      "algorithmic", "algorithm", "audit", "bias", "explainability", "neural",
+      "shap", "lime", "code disclosure", "training dataset", "automated", "model", "black-box"
+    ],
+    "section_clues": [
+      "clause 12", "algorithmic transparency", "audit", "ai", "transparency"
+    ]
+  },
+  "Data Localization & Infrastructure": {
+    "keywords": [
+      "localization", "storage", "local storage", "cloud", "data center",
+      "sovereignty", "domestic", "mirror cloud", "subsidies", "zero-trust", "failover"
+    ],
+    "section_clues": [
+      "clause 3", "data localization", "storage", "infrastructure"
+    ]
+  },
+  "Grievance Redressal & Consumer Rights": {
+    "keywords": [
+      "grievance", "redressal", "complaint", "48-hour", "resolution",
+      "fraud", "regional language", "ombudsman", "consumer", "transparency report", "helpline"
+    ],
+    "section_clues": [
+      "clause 15", "grievance redressal", "consumer", "redressal"
+    ]
+  },
+  "Cross-Border Data Flows & Global Trade": {
+    "keywords": [
+      "cross-border", "trade", "bpo", "saas", "adequacy", "reciprocal",
+      "iso/iec", "apec", "oecd", "negative list", "export", "surveillance"
+    ],
+    "section_clues": [
+      "clause 19", "cross-border", "international", "data flow"
+    ]
+  },
+  "Penalties, Appeals & Safe Harbor": {
+    "keywords": [
+      "penalty", "penalties", "safe harbor", "turnover", "cure notice",
+      "tribunal", "proportional", "deliberate", "procedural lapse", "punitive", "conduit"
+    ],
+    "section_clues": [
+      "clause 23", "penalty", "safe harbor", "appeals", "penalties"
+    ]
+  }
+}

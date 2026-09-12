@@ -5,7 +5,8 @@ import {
   PolicyInsightListResponse,
   PolicyInsight,
   HealthResponse,
-  AnalysisResult
+  AnalysisResult,
+  DatasetUploadResponse
 } from "./types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
@@ -19,7 +20,6 @@ async function fetchJSON<T>(endpoint: string, options?: RequestInit): Promise<T>
         "Content-Type": "application/json",
         ...(options?.headers || {}),
       },
-      // Cache-control: for research prototype, ensure fresh reads
       cache: "no-store",
     });
 
@@ -138,5 +138,23 @@ export const api = {
       summary: r.summary,
       processed_at: r.processed_at,
     }));
+  },
+
+  uploadDataset: async (file: File): Promise<DatasetUploadResponse> => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const url = `${API_BASE_URL}/datasets/upload`;
+    const res = await fetch(url, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Upload Error [${res.status}]: ${errorText}`);
+    }
+
+    return await res.json();
   },
 };

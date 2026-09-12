@@ -165,3 +165,19 @@ export interface HealthResponse {
   total_records: number;
   providers: Record<string, string>;
 }
+
+export interface IngestionValidationError {
+  row_index: number;
+  field: string;
+  error_type: string;
+  message: string;
+}
+
+export interface DatasetUploadResponse {
+  filename: string;
+  rows_received: number;
+  rows_accepted: number;
+  rows_rejected: number;
+  validation_errors: IngestionValidationError[];
+  preview: ConsultationComment[];
+}
