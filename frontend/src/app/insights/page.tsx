@@ -5,7 +5,7 @@ import { InsightCard } from "@/components/insights/InsightCard";
 import { InsightEvidenceViewer } from "@/components/insights/InsightEvidenceViewer";
 import { api } from "@/lib/api";
 import { PolicyInsight, PolicyInsightListResponse } from "@/lib/types";
-import { Lightbulb, Filter, ShieldAlert, Sparkles, RefreshCw } from "lucide-react";
+import { Lightbulb, RefreshCw, Filter } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 export default function InsightsPage() {
@@ -34,10 +34,9 @@ export default function InsightsPage() {
 
   const priorityTabs = [
     { label: "All Priorities", value: "All", count: data?.total },
-    { label: "Critical", value: "Critical", count: data?.critical_count },
-    { label: "High", value: "High", count: data?.high_count },
-    { label: "Medium", value: "Medium", count: data?.medium_count },
-    { label: "Low", value: "Low", count: data?.low_count },
+    { label: "HIGH Priority", value: "HIGH", count: data?.high_count },
+    { label: "MEDIUM Priority", value: "MEDIUM", count: data?.medium_count },
+    { label: "LOW Priority", value: "LOW", count: data?.low_count },
   ];
 
   return (
@@ -47,14 +46,14 @@ export default function InsightsPage() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-semibold uppercase">
-              Research Core Feature
+              Core Research Feature
             </span>
           </div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
             Evidence-Linked Policy Insights
           </h1>
           <p className="text-sm text-slate-600 mt-1">
-            Synthesized policy recommendations integrating multi-stakeholder sentiment, operational concerns, and actionable proposals with verifiable quotation traceability.
+            Aggregated policy recommendations integrating stakeholder consensus, concern severity, and actionable proposals with verifiable quotation citations.
           </p>
         </div>
 
@@ -87,7 +86,7 @@ export default function InsightsPage() {
                 <span
                   className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                     isActive
-                      ? "bg-emerald-100 text-emerald-900"
+                      ? "bg-emerald-100 text-emerald-900 font-bold"
                       : "bg-slate-200 text-slate-600"
                   }`}
                 >

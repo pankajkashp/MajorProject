@@ -50,13 +50,18 @@ def test_explainable_priority_calculation():
     assert len(insights) == 1
     ins = insights[0]
 
-    # Verify priority formulation
+    # Verify priority formulation and factors
     assert ins.priority_score > 0
-    assert ins.priority_breakdown.severity_component > 0
-    assert ins.priority_breakdown.stakeholder_diversity_component > 0
-    assert ins.priority_breakdown.volume_component > 0
-    assert ins.priority_breakdown.negative_friction_component > 0
+    assert ins.priority_level in ["HIGH", "MEDIUM", "LOW"]
+    assert ins.priority_factors.severity_score > 0
+    assert ins.priority_factors.stakeholder_diversity_score > 0
+    assert ins.priority_factors.frequency_score > 0
+    assert ins.priority_factors.sentiment_intensity_score > 0
     assert "Priority score" in ins.priority_explanation
-    assert len(ins.evidence_quotes) == 2
+    assert len(ins.supporting_evidence) == 2
     assert "C1" in ins.supporting_comment_ids
     assert "C2" in ins.supporting_comment_ids
+    assert ins.frequency == 2
+    assert ins.frequency_percentage == 100.0
+    assert ins.stakeholder_count == 2
+    assert ins.dominant_sentiment == "Negative"

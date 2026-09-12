@@ -1,5 +1,5 @@
 export type SentimentLabel = "Positive" | "Negative" | "Neutral" | "Mixed";
-export type PriorityLevel = "Critical" | "High" | "Medium" | "Low";
+export type PriorityLevel = "HIGH" | "MEDIUM" | "LOW" | "Critical" | "High" | "Medium" | "Low";
 
 export interface SentimentResult {
   label: SentimentLabel;
@@ -19,7 +19,7 @@ export interface ConcernItem {
   id: string;
   text: string;
   category: string;
-  severity: PriorityLevel;
+  severity: string;
   text_span?: string | null;
 }
 
@@ -73,13 +73,15 @@ export interface EvidenceQuote {
   section?: string | null;
   verbatim_text: string;
   sentiment_label: string;
+  extracted_concerns: string[];
+  extracted_suggestions: string[];
 }
 
-export interface PriorityBreakdown {
-  severity_component: number;
-  stakeholder_diversity_component: number;
-  volume_component: number;
-  negative_friction_component: number;
+export interface PriorityFactors {
+  frequency_score: number;
+  sentiment_intensity_score: number;
+  stakeholder_diversity_score: number;
+  severity_score: number;
   raw_score: number;
 }
 
@@ -88,23 +90,27 @@ export interface PolicyInsight {
   title: string;
   topic: string;
   section?: string | null;
-  priority_level: PriorityLevel;
-  priority_score: number;
-  priority_breakdown: PriorityBreakdown;
-  priority_explanation: string;
-  frequency_count: number;
-  stakeholder_consensus: string;
-  affected_stakeholders: string[];
+  concern: string;
+  suggestion: string;
+  frequency: number;
+  frequency_percentage: number;
   sentiment_distribution: Record<string, number>;
-  concern_summary: string;
-  suggestion_summary: string;
-  evidence_quotes: EvidenceQuote[];
+  dominant_sentiment: string;
+  average_sentiment_score: number;
+  stakeholder_groups: string[];
+  stakeholder_count: number;
+  stakeholder_breakdown: Record<string, number>;
+  stakeholder_consensus: string;
+  priority_score: number;
+  priority_level: string;
+  priority_factors: PriorityFactors;
+  priority_explanation: string;
   supporting_comment_ids: string[];
+  supporting_evidence: EvidenceQuote[];
 }
 
 export interface PolicyInsightListResponse {
   total: number;
-  critical_count: number;
   high_count: number;
   medium_count: number;
   low_count: number;
@@ -132,13 +138,15 @@ export interface TopicMetric {
   percentage: number;
   sentiment_score: number;
   critical_concerns_count: number;
+  top_concerns: string[];
+  top_suggestions: string[];
 }
 
 export interface PriorityAlert {
   id: string;
   headline: string;
   topic: string;
-  priority_level: PriorityLevel;
+  priority_level: string;
   priority_score: number;
   affected_stakeholders: string[];
   suggested_action: string;
@@ -154,6 +162,8 @@ export interface DashboardSummaryResponse {
   total_insights_generated: number;
   actionable_suggestions_count: number;
   critical_friction_points: number;
+  top_concerns_summary: string[];
+  top_suggestions_summary: string[];
 }
 
 export interface HealthResponse {

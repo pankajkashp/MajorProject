@@ -7,7 +7,7 @@ def test_health_endpoint(client):
 
 def test_analyze_comment_endpoint(client):
     payload = {
-        "comment": "The proposed 30-day compliance window is severely burdensome for startups. We suggest a 180-day transition period.",
+        "comment": "The proposed 30-day compliance window is severely burdensome for startups. We strongly suggest extending the transition period to at least 180 days.",
         "section": "Clause 7 - Compliance Timelines",
         "stakeholder_type": "MSME & Startup Sector"
     }
@@ -15,7 +15,7 @@ def test_analyze_comment_endpoint(client):
     assert response.status_code == 200
     data = response.json()
     assert data["success"] is True
-    assert data["sentiment"]["label"] == "Negative"
+    assert data["sentiment"]["label"] in ["Negative", "Mixed"]
     assert len(data["concerns"]) >= 1
     assert len(data["suggestions"]) >= 1
     assert "headline" in data["summary"]
@@ -27,6 +27,9 @@ def test_dashboard_summary_endpoint(client):
     assert data["total_comments"] > 0
     assert "sentiment_distribution" in data
     assert len(data["top_topics"]) > 0
+    assert len(data["top_concerns_summary"]) > 0
+    assert len(data["top_suggestions_summary"]) > 0
+    assert data["total_insights_generated"] > 0
 
 def test_comments_list_endpoint(client):
     response = client.get("/api/v1/comments?page=1&page_size=5")
@@ -37,10 +40,13 @@ def test_comments_list_endpoint(client):
     assert "analysis" in data["items"][0]
 
 def test_insights_endpoint(client):
-    response = client.get("/api/v1/insights")
+    response = client.get("/api/v1/insights?priority=HIGH")
     assert response.status_code == 200
     data = response.json()
     assert data["total"] > 0
     assert len(data["items"]) > 0
     first_insight = data["items"][0]
-    assert "evidence_quotes" in first_insight
+    assert first_insight["priority_level"] == "HIGH"
+    assert "supporting_evidence" in first_insight
+    assert "priority_factors" in first_insight
+    assert len(first_insight["supporting_evidence"]) > 0

@@ -1,6 +1,5 @@
 from typing import List, Dict, Any
 from pydantic import BaseModel
-from app.schemas.insight import PolicyInsightResponse
 
 class SentimentDistribution(BaseModel):
     positive: int
@@ -21,6 +20,8 @@ class TopicMetric(BaseModel):
     percentage: float
     sentiment_score: float
     critical_concerns_count: int
+    top_concerns: List[str]
+    top_suggestions: List[str]
 
 class PriorityAlert(BaseModel):
     id: str
@@ -41,3 +42,5 @@ class DashboardSummaryResponse(BaseModel):
     total_insights_generated: int
     actionable_suggestions_count: int
     critical_friction_points: int
+    top_concerns_summary: List[str]
+    top_suggestions_summary: List[str]

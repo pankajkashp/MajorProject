@@ -7,22 +7,22 @@ router = APIRouter()
 
 @router.get("", response_model=PolicyInsightListResponse, summary="Get Evidence-Linked Policy Insights")
 def list_insights(
-    priority_level: Optional[str] = Query(None, description="Filter by priority (Critical, High, Medium, Low)"),
-    topic: Optional[str] = Query(None, description="Filter by topic keyword")
+    priority: Optional[str] = Query(None, description="Filter by priority (HIGH, MEDIUM, LOW)"),
+    topic: Optional[str] = Query(None, description="Filter by topic keyword"),
+    stakeholder: Optional[str] = Query(None, description="Filter by affected stakeholder group"),
+    sentiment: Optional[str] = Query(None, description="Filter by dominant sentiment (Positive, Negative, Neutral, Mixed)")
 ):
-    insights = insight_service.get_all()
-
-    if priority_level and priority_level.lower() != "all":
-        insights = [i for i in insights if i.priority_level.lower() == priority_level.lower()]
-
-    if topic and topic.lower() != "all":
-        insights = [i for i in insights if topic.lower() in i.topic.lower()]
+    filtered_insights = insight_service.get_all(
+        priority=priority,
+        topic=topic,
+        stakeholder=stakeholder,
+        sentiment=sentiment
+    )
 
     all_insights = insight_service.get_all()
-    critical_cnt = sum(1 for i in all_insights if i.priority_level == "Critical")
-    high_cnt = sum(1 for i in all_insights if i.priority_level == "High")
-    med_cnt = sum(1 for i in all_insights if i.priority_level == "Medium")
-    low_cnt = sum(1 for i in all_insights if i.priority_level == "Low")
+    high_cnt = sum(1 for i in all_insights if i.priority_level == "HIGH")
+    med_cnt = sum(1 for i in all_insights if i.priority_level == "MEDIUM")
+    low_cnt = sum(1 for i in all_insights if i.priority_level == "LOW")
 
     response_items = [
         PolicyInsightResponse(
@@ -30,25 +30,29 @@ def list_insights(
             title=i.title,
             topic=i.topic,
             section=i.section,
-            priority_level=i.priority_level,
-            priority_score=i.priority_score,
-            priority_breakdown=i.priority_breakdown,
-            priority_explanation=i.priority_explanation,
-            frequency_count=i.frequency_count,
-            stakeholder_consensus=i.stakeholder_consensus,
-            affected_stakeholders=i.affected_stakeholders,
+            concern=i.concern,
+            suggestion=i.suggestion,
+            frequency=i.frequency,
+            frequency_percentage=i.frequency_percentage,
             sentiment_distribution=i.sentiment_distribution,
-            concern_summary=i.concern_summary,
-            suggestion_summary=i.suggestion_summary,
-            evidence_quotes=i.evidence_quotes,
-            supporting_comment_ids=i.supporting_comment_ids
+            dominant_sentiment=i.dominant_sentiment,
+            average_sentiment_score=i.average_sentiment_score,
+            stakeholder_groups=i.stakeholder_groups,
+            stakeholder_count=i.stakeholder_count,
+            stakeholder_breakdown=i.stakeholder_breakdown,
+            stakeholder_consensus=i.stakeholder_consensus,
+            priority_score=i.priority_score,
+            priority_level=i.priority_level,
+            priority_factors=i.priority_factors,
+            priority_explanation=i.priority_explanation,
+            supporting_comment_ids=i.supporting_comment_ids,
+            supporting_evidence=i.supporting_evidence
         )
-        for i in insights
+        for i in filtered_insights
     ]
 
     return PolicyInsightListResponse(
         total=len(response_items),
-        critical_count=critical_cnt,
         high_count=high_cnt,
         medium_count=med_cnt,
         low_count=low_cnt,
@@ -66,16 +70,21 @@ def get_insight(insight_id: str):
         title=insight.title,
         topic=insight.topic,
         section=insight.section,
-        priority_level=insight.priority_level,
-        priority_score=insight.priority_score,
-        priority_breakdown=insight.priority_breakdown,
-        priority_explanation=insight.priority_explanation,
-        frequency_count=insight.frequency_count,
-        stakeholder_consensus=insight.stakeholder_consensus,
-        affected_stakeholders=insight.affected_stakeholders,
+        concern=insight.concern,
+        suggestion=insight.suggestion,
+        frequency=insight.frequency,
+        frequency_percentage=insight.frequency_percentage,
         sentiment_distribution=insight.sentiment_distribution,
-        concern_summary=insight.concern_summary,
-        suggestion_summary=insight.suggestion_summary,
-        evidence_quotes=insight.evidence_quotes,
-        supporting_comment_ids=insight.supporting_comment_ids
+        dominant_sentiment=insight.dominant_sentiment,
+        average_sentiment_score=insight.average_sentiment_score,
+        stakeholder_groups=insight.stakeholder_groups,
+        stakeholder_count=insight.stakeholder_count,
+        stakeholder_breakdown=insight.stakeholder_breakdown,
+        stakeholder_consensus=insight.stakeholder_consensus,
+        priority_score=insight.priority_score,
+        priority_level=insight.priority_level,
+        priority_factors=insight.priority_factors,
+        priority_explanation=insight.priority_explanation,
+        supporting_comment_ids=insight.supporting_comment_ids,
+        supporting_evidence=insight.supporting_evidence
     )

@@ -65,33 +65,39 @@ class EvidenceQuote(BaseModel):
     section: Optional[str] = None
     verbatim_text: str
     sentiment_label: str
+    extracted_concerns: List[str] = Field(default_factory=list)
+    extracted_suggestions: List[str] = Field(default_factory=list)
 
-class PriorityBreakdown(BaseModel):
-    severity_component: float
-    stakeholder_diversity_component: float
-    volume_component: float
-    negative_friction_component: float
+class PriorityFactors(BaseModel):
+    frequency_score: float
+    sentiment_intensity_score: float
+    stakeholder_diversity_score: float
+    severity_score: float
     raw_score: float
 
 class PolicyInsight(BaseModel):
     """
     Evidence-Linked Policy Insight Layer.
-    Combines sentiment, topic, extracted concerns, actionable suggestions, frequency,
-    priority scoring, and exact supporting consultation comment citations.
+    Aggregates multi-stakeholder feedback into traceable, actionable policy insights.
     """
     id: str
     title: str
     topic: str
     section: Optional[str] = None
-    priority_level: str  # Critical, High, Medium, Low
-    priority_score: float  # 0 to 100
-    priority_breakdown: PriorityBreakdown
-    priority_explanation: str
-    frequency_count: int
-    stakeholder_consensus: str  # Broad Resistance, Positive Alignment, Polarized, Substantive Concerns
-    affected_stakeholders: List[str] = Field(default_factory=list)
+    concern: str
+    suggestion: str
+    frequency: int
+    frequency_percentage: float
     sentiment_distribution: Dict[str, int] = Field(default_factory=dict)
-    concern_summary: str
-    suggestion_summary: str
-    evidence_quotes: List[EvidenceQuote] = Field(default_factory=list)
+    dominant_sentiment: str
+    average_sentiment_score: float
+    stakeholder_groups: List[str] = Field(default_factory=list)
+    stakeholder_count: int
+    stakeholder_breakdown: Dict[str, int] = Field(default_factory=dict)
+    stakeholder_consensus: str
+    priority_score: float
+    priority_level: str  # HIGH, MEDIUM, LOW
+    priority_factors: PriorityFactors
+    priority_explanation: str
     supporting_comment_ids: List[str] = Field(default_factory=list)
+    supporting_evidence: List[EvidenceQuote] = Field(default_factory=list)

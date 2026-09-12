@@ -1,28 +1,32 @@
 from typing import List, Optional, Dict
 from pydantic import BaseModel
-from app.models.domain import PolicyInsight, EvidenceQuote, PriorityBreakdown
+from app.models.domain import EvidenceQuote, PriorityFactors
 
 class PolicyInsightResponse(BaseModel):
     id: str
     title: str
     topic: str
     section: Optional[str] = None
-    priority_level: str
-    priority_score: float
-    priority_breakdown: PriorityBreakdown
-    priority_explanation: str
-    frequency_count: int
-    stakeholder_consensus: str
-    affected_stakeholders: List[str]
+    concern: str
+    suggestion: str
+    frequency: int
+    frequency_percentage: float
     sentiment_distribution: Dict[str, int]
-    concern_summary: str
-    suggestion_summary: str
-    evidence_quotes: List[EvidenceQuote]
+    dominant_sentiment: str
+    average_sentiment_score: float
+    stakeholder_groups: List[str]
+    stakeholder_count: int
+    stakeholder_breakdown: Dict[str, int]
+    stakeholder_consensus: str
+    priority_score: float
+    priority_level: str  # HIGH, MEDIUM, LOW
+    priority_factors: PriorityFactors
+    priority_explanation: str
     supporting_comment_ids: List[str]
+    supporting_evidence: List[EvidenceQuote]
 
 class PolicyInsightListResponse(BaseModel):
     total: int
-    critical_count: int
     high_count: int
     medium_count: int
     low_count: int
