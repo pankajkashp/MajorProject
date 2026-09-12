@@ -35,3 +35,35 @@ def test_negation_handling():
     res_negated = provider.analyze("This clause is not commendable and lacks clarity.")
     assert res_negated.label == "Negative"
     assert any("negated" in c or "not" in c or "lack" in c for c in res_negated.polarity_cues)
+
+def test_regression_framework_useful_and_clear_protection():
+    provider = LocalSentimentProvider()
+    res = provider.analyze("The proposed framework is useful and provides a clear mechanism for protecting consumers.")
+    assert res.label == "Positive"
+    assert res.score > 0.3
+    assert any(cue in ["useful", "clear", "protecting", "protection"] for cue in res.polarity_cues)
+
+def test_regression_beneficial_and_improves_protection():
+    provider = LocalSentimentProvider()
+    res = provider.analyze("The framework is beneficial and improves consumer protection.")
+    assert res.label == "Positive"
+    assert res.score > 0.3
+    assert any(cue in ["beneficial", "improves", "protection"] for cue in res.polarity_cues)
+
+def test_regression_neutral_statement():
+    provider = LocalSentimentProvider()
+    res = provider.analyze("The draft has been submitted to the legislative committee for scheduled review next quarter.")
+    assert res.label == "Neutral"
+    assert res.score == 0.0
+
+def test_regression_negative_statement():
+    provider = LocalSentimentProvider()
+    res = provider.analyze("The heavy penalties and arbitrary deadlines are severely burdensome for small businesses.")
+    assert res.label == "Negative"
+    assert res.score < -0.3
+
+def test_regression_mixed_statement():
+    provider = LocalSentimentProvider()
+    res = provider.analyze("We appreciate the clear consumer protection safeguards, but the 30-day compliance timeline is burdensome.")
+    assert res.label == "Mixed"
+

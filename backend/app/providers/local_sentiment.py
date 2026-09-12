@@ -31,6 +31,7 @@ class LocalSentimentProvider(SentimentProvider):
             )
 
         clean_text = text.lower()
+        clean_text = re.sub(r"n't\b", " not", clean_text)
         words = re.findall(r"\b\w+\b", clean_text)
         
         pos_score = 0.0
