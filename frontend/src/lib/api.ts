@@ -9,7 +9,10 @@ import {
   DatasetUploadResponse
 } from "./types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "http://localhost:8000/api/v1";
 
 async function fetchJSON<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
@@ -50,6 +53,7 @@ export const api = {
     stakeholderType?: string;
     section?: string;
     sentiment?: string;
+    topic?: string;
     search?: string;
   }): Promise<CommentListResponse> => {
     const query = new URLSearchParams();
@@ -58,6 +62,7 @@ export const api = {
     if (params?.stakeholderType && params.stakeholderType !== "All") query.append("stakeholder_type", params.stakeholderType);
     if (params?.section && params.section !== "All") query.append("section", params.section);
     if (params?.sentiment && params.sentiment !== "All") query.append("sentiment", params.sentiment);
+    if (params?.topic && params.topic !== "All") query.append("topic", params.topic);
     if (params?.search) query.append("search", params.search);
 
     const qs = query.toString() ? `?${query.toString()}` : "";
@@ -71,10 +76,14 @@ export const api = {
   getInsights: async (params?: {
     priorityLevel?: string;
     topic?: string;
+    stakeholder?: string;
+    sentiment?: string;
   }): Promise<PolicyInsightListResponse> => {
     const query = new URLSearchParams();
-    if (params?.priorityLevel && params.priorityLevel !== "All") query.append("priority_level", params.priorityLevel);
+    if (params?.priorityLevel && params.priorityLevel !== "All") query.append("priority", params.priorityLevel);
     if (params?.topic && params.topic !== "All") query.append("topic", params.topic);
+    if (params?.stakeholder && params.stakeholder !== "All") query.append("stakeholder", params.stakeholder);
+    if (params?.sentiment && params.sentiment !== "All") query.append("sentiment", params.sentiment);
 
     const qs = query.toString() ? `?${query.toString()}` : "";
     return fetchJSON<PolicyInsightListResponse>(`/insights${qs}`);

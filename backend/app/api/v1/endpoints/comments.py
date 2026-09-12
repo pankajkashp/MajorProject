@@ -14,6 +14,7 @@ def list_comments(
     stakeholder_type: Optional[str] = Query(None, description="Filter by stakeholder group"),
     section: Optional[str] = Query(None, description="Filter by section/clause"),
     sentiment: Optional[str] = Query(None, description="Filter by sentiment (Positive, Negative, Neutral, Mixed)"),
+    topic: Optional[str] = Query(None, description="Filter by topic"),
     search: Optional[str] = Query(None, description="Search keyword in text or metadata")
 ):
     comments = dataset_service.filter_comments(
@@ -32,6 +33,15 @@ def list_comments(
         # Apply sentiment filter if requested
         if sentiment and sentiment.lower() != "all":
             if analysis.sentiment.label.lower() != sentiment.lower():
+                continue
+
+        # Apply topic filter if requested
+        if topic and topic.lower() != "all":
+            topic_match = (
+                topic.lower() in analysis.topic.primary_topic.lower() or
+                any(topic.lower() in t.topic.lower() for t in analysis.topic.secondary_topics)
+            )
+            if not topic_match:
                 continue
 
         items.append(CommentResponse(

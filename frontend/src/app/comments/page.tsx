@@ -18,6 +18,7 @@ export default function CommentsPage() {
   // Filters
   const [search, setSearch] = useState<string>("");
   const [sentiment, setSentiment] = useState<string>("All");
+  const [topic, setTopic] = useState<string>("All");
   const [stakeholder, setStakeholder] = useState<string>("All");
   const [section, setSection] = useState<string>("All");
 
@@ -27,6 +28,7 @@ export default function CommentsPage() {
       const res = await api.getComments({
         search: search || undefined,
         sentiment: sentiment !== "All" ? sentiment : undefined,
+        topic: topic !== "All" ? topic : undefined,
         stakeholderType: stakeholder !== "All" ? stakeholder : undefined,
         section: section !== "All" ? section : undefined,
       });
@@ -43,11 +45,12 @@ export default function CommentsPage() {
       loadComments();
     }, 200);
     return () => clearTimeout(timer);
-  }, [search, sentiment, stakeholder, section]);
+  }, [search, sentiment, topic, stakeholder, section]);
 
   const handleResetFilters = () => {
     setSearch("");
     setSentiment("All");
+    setTopic("All");
     setStakeholder("All");
     setSection("All");
   };
@@ -80,6 +83,8 @@ export default function CommentsPage() {
         onSearchChange={setSearch}
         sentiment={sentiment}
         onSentimentChange={setSentiment}
+        topic={topic}
+        onTopicChange={setTopic}
         stakeholder={stakeholder}
         onStakeholderChange={setStakeholder}
         section={section}
