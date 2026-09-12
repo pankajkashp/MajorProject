@@ -34,19 +34,14 @@ export default function TopicsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Title */}
+      {/* Title & Subtitle */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-semibold uppercase">
-              Thematic & Clause Intelligence
-            </span>
-          </div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Regulatory Topics & Clause Breakdown
+            Consultation topics
           </h1>
           <p className="text-sm text-slate-600 mt-1">
-            Detailed breakdown of feedback density, sentiment polarity, friction points, and proposed legislative amendments per legislative section.
+            Where stakeholder feedback is concentrated across the consultation.
           </p>
         </div>
 
@@ -56,7 +51,7 @@ export default function TopicsPage() {
           onClick={fetchTopics}
           icon={<RefreshCw className="w-3.5 h-3.5" />}
         >
-          Refresh Topics
+          Refresh topics
         </Button>
       </div>
 

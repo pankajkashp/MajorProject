@@ -14,45 +14,55 @@ export const TopTopicsCard: React.FC<TopTopicsCardProps> = ({ topics = [] }) => 
     return <div className="h-48 bg-slate-50 animate-pulse rounded" />;
   }
 
+  const maxCount = Math.max(...topics.map((t) => t.count), 1);
+
   return (
-    <div className="space-y-3">
-      {topics.map((t) => (
-        <div
-          key={t.topic}
-          className="p-3.5 rounded-lg border border-slate-200/80 bg-white hover:border-slate-300 transition-colors flex items-center justify-between"
-        >
-          <div className="flex-1 min-w-0 mr-4">
-            <h4 className="text-sm font-semibold text-slate-900 truncate">{t.topic}</h4>
-            <div className="flex items-center gap-3 mt-1 text-xs text-slate-500">
-              <span>{t.count} submissions ({t.percentage}%)</span>
-              <span>•</span>
-              <span
-                className={`font-medium ${
-                  t.sentiment_score < -0.2
-                    ? "text-rose-600"
-                    : t.sentiment_score > 0.2
-                    ? "text-emerald-600"
-                    : "text-slate-600"
-                }`}
-              >
-                Sentiment: {t.sentiment_score > 0 ? `+${t.sentiment_score}` : t.sentiment_score}
+    <div className="space-y-4">
+      {topics.map((t) => {
+        const barWidth = Math.round((t.count / maxCount) * 100);
+        return (
+          <div key={t.topic} className="space-y-1.5 text-xs">
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-slate-900 truncate max-w-[280px]">
+                {t.topic}
               </span>
+              <div className="flex items-center gap-2 font-mono">
+                <span className="font-bold text-slate-900">{t.count} comments</span>
+                <span className="text-slate-500">({t.percentage}%)</span>
+              </div>
+            </div>
+
+            {/* Horizontal Bar */}
+            <div className="h-2.5 w-full rounded bg-slate-100 overflow-hidden">
+              <div
+                style={{ width: `${barWidth}%` }}
+                className="h-full bg-slate-700 rounded"
+              />
+            </div>
+
+            <div className="flex items-center justify-between text-[11px] text-slate-500 pt-0.5">
+              <span>
+                Net sentiment:{" "}
+                <strong className={t.sentiment_score < 0 ? "text-red-700" : "text-emerald-700"}>
+                  {t.sentiment_score > 0 ? `+${t.sentiment_score}` : t.sentiment_score}
+                </strong>
+              </span>
+              {t.critical_concerns_count > 0 && (
+                <span className="text-red-800 font-medium">
+                  {t.critical_concerns_count} high-priority concerns
+                </span>
+              )}
             </div>
           </div>
-          {t.critical_concerns_count > 0 && (
-            <span className="flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded bg-rose-50 text-rose-700 border border-rose-200">
-              <AlertCircle className="w-3.5 h-3.5" />
-              {t.critical_concerns_count} flags
-            </span>
-          )}
-        </div>
-      ))}
-      <div className="pt-2 text-right">
+        );
+      })}
+
+      <div className="pt-2 border-t border-slate-100 text-right">
         <Link
           href="/topics"
-          className="text-xs font-semibold text-slate-900 hover:text-emerald-700 inline-flex items-center gap-1"
+          className="text-xs font-semibold text-blue-700 hover:text-blue-900 inline-flex items-center gap-1"
         >
-          Explore All Topics <ArrowRight className="w-3.5 h-3.5" />
+          View all consultation topics <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
     </div>

@@ -127,16 +127,11 @@ export default function AnalyzePage() {
     <div className="space-y-6">
       {/* Title */}
       <div className="border-b border-slate-200 pb-5">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-semibold uppercase">
-            Data Evaluation & Testing Playground
-          </span>
-        </div>
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-          Analysis & Ingestion Testing
+          Analyze a comment
         </h1>
         <p className="text-sm text-slate-600 mt-1">
-          Test real-time linguistic extraction on individual comments, or validate and normalize external CSV datasets.
+          Understand the sentiment, topic, concern and suggested action in an individual submission.
         </p>
       </div>
 
@@ -144,26 +139,26 @@ export default function AnalyzePage() {
       <div className="flex items-center gap-2 border-b border-slate-200 text-xs">
         <button
           onClick={() => setActiveTab("single")}
-          className={`px-4 py-2.5 rounded-t-md font-semibold transition-colors flex items-center gap-2 border-b-2 -mb-[2px] ${
+          className={`px-4 py-2.5 rounded-t font-semibold transition-colors flex items-center gap-2 border-b-2 -mb-[2px] ${
             activeTab === "single"
-              ? "border-emerald-600 text-emerald-950 bg-white"
+              ? "border-slate-900 text-slate-900 bg-white"
               : "border-transparent text-slate-500 hover:text-slate-800"
           }`}
         >
           <FlaskConical className="w-4 h-4" />
-          Single Comment Analyzer
+          Analyze a single comment
         </button>
 
         <button
           onClick={() => setActiveTab("upload")}
-          className={`px-4 py-2.5 rounded-t-md font-semibold transition-colors flex items-center gap-2 border-b-2 -mb-[2px] ${
+          className={`px-4 py-2.5 rounded-t font-semibold transition-colors flex items-center gap-2 border-b-2 -mb-[2px] ${
             activeTab === "upload"
-              ? "border-emerald-600 text-emerald-950 bg-white"
+              ? "border-slate-900 text-slate-900 bg-white"
               : "border-transparent text-slate-500 hover:text-slate-800"
           }`}
         >
           <UploadCloud className="w-4 h-4" />
-          CSV Dataset Ingestion & Validation
+          Upload consultation dataset (CSV)
         </button>
       </div>
 
@@ -171,12 +166,12 @@ export default function AnalyzePage() {
         <div className="space-y-6">
           {/* Preset Buttons */}
           <div className="flex items-center gap-2 flex-wrap text-xs">
-            <span className="font-semibold text-slate-600">Sample Presets:</span>
+            <span className="font-semibold text-slate-600">Sample Submissions:</span>
             {presets.map((p) => (
               <button
                 key={p.label}
                 onClick={() => loadPreset(p)}
-                className="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-colors"
+                className="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium transition-colors border border-slate-200"
               >
                 {p.label}
               </button>
@@ -186,34 +181,34 @@ export default function AnalyzePage() {
           {/* Input Form */}
           <Card>
             <CardHeader
-              title="Submission Input"
-              subtitle="Enter unstructured stakeholder consultation feedback"
+              title="Submission input"
+              subtitle="Enter stakeholder consultation feedback for analysis"
             />
 
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Target Section / Clause
+                    Section / Clause
                   </label>
                   <input
                     type="text"
                     value={section}
                     onChange={(e) => setSection(e.target.value)}
                     placeholder="e.g. Clause 7 - Compliance Timelines"
-                    className="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-900 text-slate-900"
+                    className="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-slate-900 text-slate-900"
                   />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Stakeholder Group
+                    Stakeholder group
                   </label>
                   <input
                     type="text"
                     value={stakeholder}
                     onChange={(e) => setStakeholder(e.target.value)}
                     placeholder="e.g. MSME & Startup Sector"
-                    className="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-900 text-slate-900"
+                    className="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-slate-900 text-slate-900"
                   />
                 </div>
                 <div>
@@ -225,21 +220,21 @@ export default function AnalyzePage() {
                     value={org}
                     onChange={(e) => setOrg(e.target.value)}
                     placeholder="e.g. Small Business Association"
-                    className="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-900 text-slate-900"
+                    className="w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-slate-900 text-slate-900"
                   />
                 </div>
               </div>
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Consultation Comment Text
+                  Submission text
                 </label>
                 <textarea
                   rows={4}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   placeholder="Paste public consultation submission here..."
-                  className="w-full p-3 text-sm bg-slate-50 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 text-slate-900 font-serif leading-relaxed"
+                  className="w-full p-3 text-sm bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-slate-900 text-slate-900 font-serif leading-relaxed"
                 />
               </div>
 
@@ -262,14 +257,14 @@ export default function AnalyzePage() {
                   isLoading={loading}
                   icon={<Play className="w-4 h-4 fill-current" />}
                 >
-                  Run Pipeline Analysis
+                  Run analysis
                 </Button>
               </div>
             </div>
           </Card>
 
           {error && (
-            <div className="p-4 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-sm">
+            <div className="p-4 rounded bg-red-50 border border-red-200 text-red-800 text-xs">
               {error}
             </div>
           )}
@@ -278,21 +273,17 @@ export default function AnalyzePage() {
           {result && (
             <div className="space-y-5 animate-fadeIn">
               <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-emerald-600" />
-                  <span>Pipeline Analysis Results</span>
+                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide">
+                  Analysis results
                 </h3>
-                <span className="text-xs text-slate-400 font-mono">
-                  Completed in &lt;15ms (Local Heuristic NLP)
-                </span>
               </div>
 
-              {/* Sentiment & Classification */}
+              {/* Sentiment & Topic */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+                <div className="bg-white border border-slate-200 rounded p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                      Sentiment Polarity
+                    <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                      Sentiment
                     </span>
                     <Badge variant={getSentimentVariant(result.sentiment.label)}>
                       {result.sentiment.label} ({result.sentiment.score > 0 ? `+${result.sentiment.score}` : result.sentiment.score})
@@ -302,10 +293,10 @@ export default function AnalyzePage() {
                     Confidence: <strong className="text-slate-900">{Math.round(result.sentiment.confidence * 100)}%</strong>
                   </p>
                   {result.sentiment.polarity_cues.length > 0 && (
-                    <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[10px] text-slate-400">Polarity Cues:</span>
+                    <div className="mt-2.5 flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[10px] text-slate-500">Detected cues:</span>
                       {result.sentiment.polarity_cues.map((cue) => (
-                        <span key={cue} className="px-2 py-0.5 rounded bg-slate-100 text-slate-800 text-[11px] font-mono">
+                        <span key={cue} className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-800 text-[10px] font-mono border border-slate-200">
                           {cue}
                         </span>
                       ))}
@@ -313,19 +304,19 @@ export default function AnalyzePage() {
                   )}
                 </div>
 
-                <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs">
+                <div className="bg-white border border-slate-200 rounded p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                      Topic Classification
+                    <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                      Topic
                     </span>
                     <Badge variant="outline">{Math.round(result.topic.confidence * 100)}% Match</Badge>
                   </div>
                   <h4 className="text-sm font-bold text-slate-900">{result.topic.primary_topic}</h4>
                   {result.topic.key_phrases.length > 0 && (
-                    <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-                      <span className="text-[10px] text-slate-400">Keywords:</span>
+                    <div className="mt-2.5 flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[10px] text-slate-500">Keywords:</span>
                       {result.topic.key_phrases.map((kw) => (
-                        <span key={kw} className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 text-[11px] font-medium">
+                        <span key={kw} className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-800 text-[10px] font-medium border border-slate-200">
                           {kw}
                         </span>
                       ))}
@@ -334,12 +325,12 @@ export default function AnalyzePage() {
                 </div>
               </div>
 
-              {/* Concerns & Suggestions */}
+              {/* Concern & Suggested Action */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-3">
+                <div className="bg-white border border-slate-200 rounded p-4 space-y-2.5">
                   <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                    <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-                    <span>Extracted Concerns ({result.concerns.length})</span>
+                    <AlertTriangle className="w-3.5 h-3.5 text-red-700" />
+                    <span>Concern ({result.concerns.length})</span>
                   </h4>
                   {result.concerns.length === 0 ? (
                     <p className="text-xs text-slate-400 italic">No explicit friction points detected.</p>
@@ -347,24 +338,24 @@ export default function AnalyzePage() {
                     result.concerns.map((c) => (
                       <div
                         key={c.id}
-                        className="p-3 rounded-lg bg-rose-50/60 border border-rose-100 text-xs space-y-1"
+                        className="p-3 rounded bg-red-50/70 border border-red-200 text-xs space-y-1"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-bold text-slate-900">{c.category}</span>
-                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-rose-100 text-rose-800 font-semibold">
+                          <span className="font-bold text-red-950">{c.category}</span>
+                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-red-100 text-red-800 font-semibold">
                             {c.severity} Severity
                           </span>
                         </div>
-                        <p className="text-slate-700 leading-relaxed">{c.text}</p>
+                        <p className="text-slate-800 leading-relaxed">{c.text}</p>
                       </div>
                     ))
                   )}
                 </div>
 
-                <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-xs space-y-3">
+                <div className="bg-white border border-slate-200 rounded p-4 space-y-2.5">
                   <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                    <Lightbulb className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Extracted Proposals ({result.suggestions.length})</span>
+                    <Lightbulb className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>Suggested action ({result.suggestions.length})</span>
                   </h4>
                   {result.suggestions.length === 0 ? (
                     <p className="text-xs text-slate-400 italic">No discrete proposals detected.</p>
@@ -372,7 +363,7 @@ export default function AnalyzePage() {
                     result.suggestions.map((s) => (
                       <div
                         key={s.id}
-                        className="p-3 rounded-lg bg-emerald-50/60 border border-emerald-100 text-xs space-y-1"
+                        className="p-3 rounded bg-emerald-50/70 border border-emerald-200 text-xs space-y-1"
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-emerald-950">Action: {s.action_type}</span>
@@ -380,17 +371,17 @@ export default function AnalyzePage() {
                             {s.action_type}
                           </span>
                         </div>
-                        <p className="text-slate-700 leading-relaxed">{s.text}</p>
+                        <p className="text-slate-800 leading-relaxed">{s.text}</p>
                       </div>
                     ))
                   )}
                 </div>
               </div>
 
-              {/* Executive Summary */}
-              <div className="bg-slate-900 text-slate-100 rounded-xl p-5 space-y-2">
-                <div className="text-[10px] font-mono uppercase text-emerald-400 font-semibold">
-                  Distilled Executive Takeaway
+              {/* Summary */}
+              <div className="bg-slate-900 text-slate-100 rounded p-4 space-y-1.5">
+                <div className="text-[10px] font-mono uppercase text-slate-400 font-semibold">
+                  Summary
                 </div>
                 <h4 className="text-sm font-bold text-white">{result.summary.headline}</h4>
                 <p className="text-xs text-slate-300 leading-relaxed">{result.summary.tl_dr}</p>
@@ -403,15 +394,15 @@ export default function AnalyzePage() {
         <div className="space-y-6">
           <Card>
             <CardHeader
-              title="Upload Consultation Dataset"
-              subtitle="Upload an external CSV consultation file to validate schema normalization without modifying default data"
+              title="Upload consultation dataset"
+              subtitle="Upload an external CSV dataset to validate schema normalization without modifying baseline data"
             />
 
             <form onSubmit={handleFileUpload} className="space-y-4">
-              <div className="border-2 border-dashed border-slate-200 rounded-lg p-6 text-center bg-slate-50 hover:bg-slate-100/50 transition-colors">
+              <div className="border-2 border-dashed border-slate-200 rounded p-6 text-center bg-slate-50 hover:bg-slate-100/60 transition-colors">
                 <FileUp className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                 <label className="cursor-pointer">
-                  <span className="text-xs font-semibold text-emerald-700 hover:text-emerald-800">
+                  <span className="text-xs font-semibold text-blue-700 hover:text-blue-900">
                     Click to select CSV file
                   </span>
                   <input
@@ -428,12 +419,12 @@ export default function AnalyzePage() {
                   />
                 </label>
                 <p className="text-[11px] text-slate-500 mt-1">
-                  Supports flexible schemas (e.g. comment_text, text, response, feedback)
+                  Accepts standard consultation exports (.csv)
                 </p>
                 {uploadFile && (
-                  <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-white rounded-md border border-slate-200 text-xs font-medium text-slate-800">
+                  <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-white rounded border border-slate-200 text-xs font-medium text-slate-800">
                     <span>{uploadFile.name}</span>
-                    <span className="text-slate-400 font-mono">({Math.round(uploadFile.size / 1024)} KB)</span>
+                    <span className="text-slate-500 font-mono">({Math.round(uploadFile.size / 1024)} KB)</span>
                   </div>
                 )}
               </div>
@@ -445,7 +436,7 @@ export default function AnalyzePage() {
                   isLoading={uploadLoading}
                   icon={<UploadCloud className="w-4 h-4" />}
                 >
-                  Upload & Validate CSV
+                  Upload and validate dataset
                 </Button>
               </div>
             </form>

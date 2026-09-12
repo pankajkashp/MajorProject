@@ -41,19 +41,14 @@ export default function InsightsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Editorial Title Banner */}
+      {/* Page Title & Subtitle */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-semibold uppercase">
-              Core Research Feature
-            </span>
-          </div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Evidence-Linked Policy Insights
+            Policy insights
           </h1>
           <p className="text-sm text-slate-600 mt-1">
-            Aggregated policy recommendations integrating stakeholder consensus, concern severity, and actionable proposals with verifiable quotation citations.
+            Recurring concerns and suggestions identified across consultation responses.
           </p>
         </div>
 
@@ -63,7 +58,7 @@ export default function InsightsPage() {
           onClick={loadInsights}
           icon={<RefreshCw className="w-3.5 h-3.5" />}
         >
-          Refresh Synthesis
+          Refresh insights
         </Button>
       </div>
 

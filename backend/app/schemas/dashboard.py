@@ -31,6 +31,8 @@ class PriorityAlert(BaseModel):
     priority_score: float
     affected_stakeholders: List[str]
     suggested_action: str
+    frequency: int = 1
+    dominant_sentiment: str = "Negative"
 
 class DashboardSummaryResponse(BaseModel):
     total_comments: int

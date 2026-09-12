@@ -60,10 +60,10 @@ export const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Local Provider Badge */}
-        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-emerald-50/70 border border-emerald-200/80 text-emerald-800">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-          <span className="font-medium">Local NLP Pipeline Active</span>
+        {/* Status Indicator */}
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 text-slate-700 font-medium border border-slate-200">
+          <Activity className="w-3.5 h-3.5 text-slate-500" />
+          <span>Analysis System Active</span>
         </div>
       </div>
     </header>

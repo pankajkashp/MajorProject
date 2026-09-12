@@ -22,49 +22,41 @@ export const Sidebar: React.FC = () => {
       name: "Overview",
       href: "/",
       icon: LayoutDashboard,
-      description: "Consultation Analytics & Metrics",
     },
     {
       name: "Comments",
       href: "/comments",
       icon: MessageSquareText,
-      description: "Exploration & Granular Extractions",
     },
     {
       name: "Insights",
       href: "/insights",
       icon: Lightbulb,
-      description: "Evidence-Linked Policy Synthesis",
     },
     {
       name: "Topics",
       href: "/topics",
       icon: FolderTree,
-      description: "Clause & Thematic Breakdown",
     },
     {
-      name: "Analyze Playground",
+      name: "Analyze",
       href: "/analyze",
       icon: FlaskConical,
-      description: "Ad-hoc / Batch Comment Analysis",
     },
   ];
 
   return (
-    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col flex-shrink-0 min-h-screen border-r border-slate-800">
+    <aside className="w-60 bg-slate-900 text-slate-300 flex flex-col flex-shrink-0 min-h-screen border-r border-slate-800">
       {/* Brand Header */}
-      <div className="p-6 border-b border-slate-800/80 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-lg bg-emerald-600 flex items-center justify-center text-white shadow-sm font-semibold">
-          <Scale className="w-5 h-5 text-white" />
+      <div className="p-5 border-b border-slate-800/80 flex items-center gap-3">
+        <div className="w-8 h-8 rounded bg-slate-800 border border-slate-700 flex items-center justify-center text-white font-semibold shadow-xs">
+          <Scale className="w-4 h-4 text-slate-200" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-base font-bold text-white tracking-tight">PolicyLens</h1>
-            <span className="text-[10px] uppercase font-mono px-1.5 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded">
-              v0.1 Prototype
-            </span>
+            <h1 className="text-sm font-bold text-white tracking-tight">PolicyLens</h1>
           </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">E-Consultation Intelligence</p>
+          <p className="text-[11px] text-slate-400">Consultation Analysis</p>
         </div>
       </div>
 
@@ -99,18 +91,15 @@ export const Sidebar: React.FC = () => {
         })}
       </div>
 
-      {/* Dataset & Research Scope Notice */}
-      <div className="p-4 m-3 rounded-lg bg-slate-950/70 border border-slate-800 text-xs">
-        <div className="flex items-center gap-1.5 text-slate-300 font-medium mb-1.5">
-          <FileCheck2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Active Dataset</span>
+      {/* Dataset & Consultation Info */}
+      <div className="p-3.5 m-3 rounded bg-slate-950/80 border border-slate-800/80 text-xs">
+        <div className="flex items-center gap-1.5 text-slate-300 font-medium mb-1">
+          <FileCheck2 className="w-3.5 h-3.5 text-slate-400" />
+          <span>Consultation Context</span>
         </div>
         <p className="text-[11px] text-slate-400 leading-relaxed">
-          Draft Digital Platform Guidelines (Synthetic Demo Corpus).
+          Draft Digital Platform Guidelines (Simulated Corpus).
         </p>
-        <div className="mt-2 text-[10px] text-slate-400">
-          Research Milestone: 40% Core
-        </div>
       </div>
     </aside>
   );

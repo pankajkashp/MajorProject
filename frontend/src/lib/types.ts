@@ -150,6 +150,8 @@ export interface PriorityAlert {
   priority_score: number;
   affected_stakeholders: string[];
   suggested_action: string;
+  frequency?: number;
+  dominant_sentiment?: string;
 }
 
 export interface DashboardSummaryResponse {

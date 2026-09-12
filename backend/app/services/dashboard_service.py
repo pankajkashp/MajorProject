@@ -126,7 +126,9 @@ class DashboardService:
                 priority_level=ins.priority_level,
                 priority_score=ins.priority_score,
                 affected_stakeholders=ins.stakeholder_groups,
-                suggested_action=ins.suggestion
+                suggested_action=ins.suggestion,
+                frequency=ins.frequency,
+                dominant_sentiment=ins.dominant_sentiment
             ))
 
         # 5. Global Top Concerns & Suggestions Summary
