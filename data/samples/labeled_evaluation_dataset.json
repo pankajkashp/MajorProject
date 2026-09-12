@@ -1,0 +1,82 @@
+[
+  {
+    "id": "EVAL-001",
+    "text": "The proposed 30-day compliance window for Clause 7 is severely burdensome for seed-stage startups. We strongly suggest extending the transition period to at least 180 days.",
+    "gold_sentiment": "Negative",
+    "gold_topic": "Compliance Timelines & MSME Impact",
+    "has_concern": true,
+    "gold_concern_category": "Compliance Burden",
+    "has_suggestion": true,
+    "gold_suggestion_action": "Timeline Extension"
+  },
+  {
+    "id": "EVAL-002",
+    "text": "While mandatory algorithmic audits are commendable, there is serious concern regarding the leakage of proprietary intellectual property. We recommend establishing independent certified audit frameworks.",
+    "gold_sentiment": "Mixed",
+    "gold_topic": "Algorithmic Transparency & AI Audits",
+    "has_concern": true,
+    "gold_concern_category": "IP & Confidentiality Risk",
+    "has_suggestion": true,
+    "gold_suggestion_action": "Certified Audit Mechanism"
+  },
+  {
+    "id": "EVAL-003",
+    "text": "We wholeheartedly welcome the requirement for a 48-hour acknowledgment of consumer complaints.",
+    "gold_sentiment": "Positive",
+    "gold_topic": "Grievance Redressal & Consumer Rights",
+    "has_concern": false,
+    "gold_concern_category": null,
+    "has_suggestion": false,
+    "gold_suggestion_action": null
+  },
+  {
+    "id": "EVAL-004",
+    "text": "Clause 3 mandates strict local storage of all transaction metadata. This will exponentially escalate infrastructure costs for cloud-native firms. We recommend adopting a risk-based data categorization framework.",
+    "gold_sentiment": "Negative",
+    "gold_topic": "Data Localization & Infrastructure",
+    "has_concern": true,
+    "gold_concern_category": "Cost Inflation",
+    "has_suggestion": true,
+    "gold_suggestion_action": "Risk-Based Framework"
+  },
+  {
+    "id": "EVAL-005",
+    "text": "The proposed penalty of up to 4% of global turnover is disproportionately punitive. We advise introducing a statutory cure notice period of 45 days.",
+    "gold_sentiment": "Negative",
+    "gold_topic": "Penalties, Appeals & Safe Harbor",
+    "has_concern": true,
+    "gold_concern_category": "Proportionality & Penalties",
+    "has_suggestion": true,
+    "gold_suggestion_action": "Statutory Cure Notice"
+  },
+  {
+    "id": "EVAL-006",
+    "text": "The draft text has been reviewed for general consultation regarding standard clause definitions.",
+    "gold_sentiment": "Neutral",
+    "gold_topic": "General Regulatory Provisions",
+    "has_concern": false,
+    "gold_concern_category": null,
+    "has_suggestion": false,
+    "gold_suggestion_action": null
+  },
+  {
+    "id": "EVAL-007",
+    "text": "Cross-border data flows are the backbone of SaaS industries. We recommend aligning cross-border adequacy rules with recognized international standards.",
+    "gold_sentiment": "Neutral",
+    "gold_topic": "Cross-Border Data Flows & Global Trade",
+    "has_concern": true,
+    "gold_concern_category": "Market & Innovation Impact",
+    "has_suggestion": true,
+    "gold_suggestion_action": "International Harmonization"
+  },
+  {
+    "id": "EVAL-008",
+    "text": "Local data storage is vital to protect citizen data. We fully support Clause 3 and recommend strict non-waivable penalties.",
+    "gold_sentiment": "Positive",
+    "gold_topic": "Data Localization & Infrastructure",
+    "has_concern": false,
+    "gold_concern_category": null,
+    "has_suggestion": false,
+    "gold_suggestion_action": null
+  }
+]

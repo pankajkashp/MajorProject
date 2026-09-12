@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+*/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js build output
+.next/
+*/.next/
+out/
+build/
+dist/
+
+# Python virtual environment & bytecode
+.venv/
+*/.venv/
+venv/
+env/
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*/.pytest_cache/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Operating System & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Task logs & temporary caches
+*.log
+scratch/
