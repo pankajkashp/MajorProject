@@ -1,7 +1,5 @@
 from typing import List, Dict, Optional
 from datetime import datetime, timezone
-
-from app.core.config import settings
 from app.core.logging import logger
 from app.models.domain import (
     ConsultationComment,
@@ -26,8 +24,8 @@ from app.providers.local_summarizer import LocalSummarizationProvider
 class AnalysisService:
     """
     Core AI/NLP Analysis Service.
-    Coordinates sentiment analysis, topic classification, concern & suggestion extraction,
-    and structured summarization via modular provider interfaces.
+    Coordinates sentiment analysis, multi-topic classification, concern & suggestion extraction,
+    and structured policy summarization via modular provider interfaces.
     """
 
     def __init__(
@@ -37,38 +35,25 @@ class AnalysisService:
         extraction_provider: Optional[ExtractionProvider] = None,
         summarization_provider: Optional[SummarizationProvider] = None
     ):
-        # Factory initialization based on config
-        self.sentiment_provider = sentiment_provider or self._resolve_sentiment_provider()
-        self.topic_provider = topic_provider or self._resolve_topic_provider()
-        self.extraction_provider = extraction_provider or self._resolve_extraction_provider()
-        self.summarization_provider = summarization_provider or self._resolve_summarization_provider()
+        self.sentiment_provider = sentiment_provider or LocalSentimentProvider()
+        self.topic_provider = topic_provider or LocalTopicProvider()
+        self.extraction_provider = extraction_provider or LocalExtractionProvider()
+        self.summarization_provider = summarization_provider or LocalSummarizationProvider()
         
         self._analysis_cache: Dict[str, AnalysisResult] = {}
 
-    def _resolve_sentiment_provider(self) -> SentimentProvider:
-        return LocalSentimentProvider()
-
-    def _resolve_topic_provider(self) -> TopicProvider:
-        return LocalTopicProvider()
-
-    def _resolve_extraction_provider(self) -> ExtractionProvider:
-        return LocalExtractionProvider()
-
-    def _resolve_summarization_provider(self) -> SummarizationProvider:
-        return LocalSummarizationProvider()
-
     def analyze_comment(self, comment: ConsultationComment) -> AnalysisResult:
-        """Run complete analysis pipeline on a single comment."""
+        """Runs the full 4-stage pipeline on a single consultation comment."""
         # 1. Sentiment Analysis
         sentiment = self.sentiment_provider.analyze(comment.comment)
 
-        # 2. Topic Classification
+        # 2. Topic & Clause Classification
         topic = self.topic_provider.classify(comment.comment, section_hint=comment.section)
 
         # 3. Concern & Suggestion Extraction
         concerns, suggestions = self.extraction_provider.extract(comment.comment, comment_id=comment.id)
 
-        # 4. Policy Summarization
+        # 4. Structured Policy Summarization
         summary = self.summarization_provider.summarize(comment.comment, concerns, suggestions)
 
         result = AnalysisResult(
@@ -85,10 +70,28 @@ class AnalysisService:
         return result
 
     def analyze_batch(self, comments: List[ConsultationComment]) -> List[AnalysisResult]:
-        """Run batch analysis pipeline across multiple comments."""
+        """
+        Runs batch analysis with item-level error isolation.
+        A failure on an individual malformed record does not crash the entire batch.
+        """
         results: List[AnalysisResult] = []
         for comment in comments:
-            results.append(self.analyze_comment(comment))
+            try:
+                result = self.analyze_comment(comment)
+                results.append(result)
+            except Exception as e:
+                logger.error(f"Error analyzing comment {comment.id}: {e}")
+                # Fallback graceful result
+                fallback_result = AnalysisResult(
+                    comment_id=comment.id,
+                    sentiment=SentimentResult(label="Neutral", score=0.0, confidence=0.0, polarity_cues=[]),
+                    topic=TopicResult(primary_topic="General Regulatory Provisions", secondary_topics=[], confidence=0.0, key_phrases=[]),
+                    concerns=[],
+                    suggestions=[],
+                    summary=SummaryResult(headline="Analysis Error", tl_dr=f"Failed to process: {str(e)}", key_takeaways=[]),
+                    processed_at=datetime.now(timezone.utc)
+                )
+                results.append(fallback_result)
         return results
 
     def get_analysis(self, comment_id: str) -> Optional[AnalysisResult]:

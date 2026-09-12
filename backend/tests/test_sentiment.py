@@ -6,15 +6,32 @@ def test_positive_sentiment():
     assert res.label == "Positive"
     assert res.score > 0.3
     assert res.confidence > 0.6
+    assert any(cue in ["welcome", "progressive", "beneficial", "strengthen"] for cue in res.polarity_cues)
 
-def test_negative_sentiment():
+def test_negative_sentiment_with_intensifiers():
     provider = LocalSentimentProvider()
     res = provider.analyze("The proposed 30-day window is severely burdensome, impractical, and will bankrupt early-stage startups.")
     assert res.label == "Negative"
-    assert res.score < -0.3
-    assert "burdensome" in res.polarity_cues or "severely" in res.polarity_cues or "bankrupt" in res.polarity_cues
+    assert res.score < -0.4
+    assert any(cue in ["burdensome", "severely", "bankrupt", "impractical"] for cue in res.polarity_cues)
 
-def test_mixed_or_neutral_sentiment():
+def test_neutral_sentiment():
     provider = LocalSentimentProvider()
     res = provider.analyze("The draft has been published for general consultation regarding standard clause definitions.")
-    assert res.label in ["Neutral", "Mixed"]
+    assert res.label == "Neutral"
+    assert abs(res.score) < 0.2
+
+def test_mixed_sentiment():
+    provider = LocalSentimentProvider()
+    res = provider.analyze(
+        "While we wholeheartedly welcome the progressive intent of algorithmic audits, "
+        "the current disclosure mandate is severely burdensome and will create severe IP risks."
+    )
+    assert res.label == "Mixed"
+    assert len(res.polarity_cues) >= 2
+
+def test_negation_handling():
+    provider = LocalSentimentProvider()
+    res_negated = provider.analyze("This clause is not commendable and lacks clarity.")
+    assert res_negated.label == "Negative"
+    assert any("negated" in c or "not" in c or "lack" in c for c in res_negated.polarity_cues)

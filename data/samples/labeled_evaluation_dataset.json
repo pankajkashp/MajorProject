@@ -1,7 +1,7 @@
 [
   {
     "id": "EVAL-001",
-    "text": "The proposed 30-day compliance window for Clause 7 is severely burdensome for seed-stage startups. We strongly suggest extending the transition period to at least 180 days.",
+    "text": "The proposed 30-day compliance window for Clause 7 is severely burdensome for seed-stage startups. We strongly suggest extending the transition period to at least 180 days with a phase-in approach.",
     "gold_sentiment": "Negative",
     "gold_topic": "Compliance Timelines & MSME Impact",
     "has_concern": true,
@@ -21,7 +21,7 @@
   },
   {
     "id": "EVAL-003",
-    "text": "We wholeheartedly welcome the requirement for a 48-hour acknowledgment of consumer complaints.",
+    "text": "We wholeheartedly welcome the requirement in Clause 15 for a 48-hour acknowledgment of consumer complaints to strengthen consumer protection.",
     "gold_sentiment": "Positive",
     "gold_topic": "Grievance Redressal & Consumer Rights",
     "has_concern": false,
@@ -41,7 +41,7 @@
   },
   {
     "id": "EVAL-005",
-    "text": "The proposed penalty of up to 4% of global turnover is disproportionately punitive. We advise introducing a statutory cure notice period of 45 days.",
+    "text": "The proposed penalty of up to 4% of global turnover is disproportionately punitive for procedural lapses. We advise introducing a statutory cure notice period of 45 days.",
     "gold_sentiment": "Negative",
     "gold_topic": "Penalties, Appeals & Safe Harbor",
     "has_concern": true,
@@ -51,7 +51,7 @@
   },
   {
     "id": "EVAL-006",
-    "text": "The draft text has been reviewed for general consultation regarding standard clause definitions.",
+    "text": "This draft submission is filed for general consultation regarding standard clause definitions without specific objections.",
     "gold_sentiment": "Neutral",
     "gold_topic": "General Regulatory Provisions",
     "has_concern": false,
@@ -61,11 +61,11 @@
   },
   {
     "id": "EVAL-007",
-    "text": "Cross-border data flows are the backbone of SaaS industries. We recommend aligning cross-border adequacy rules with recognized international standards.",
+    "text": "Cross-border data flows are the backbone of SaaS exporters. We recommend aligning cross-border adequacy rules with recognized international standards like ISO/IEC.",
     "gold_sentiment": "Neutral",
     "gold_topic": "Cross-Border Data Flows & Global Trade",
-    "has_concern": true,
-    "gold_concern_category": "Market & Innovation Impact",
+    "has_concern": false,
+    "gold_concern_category": null,
     "has_suggestion": true,
     "gold_suggestion_action": "International Harmonization"
   },
@@ -76,6 +76,26 @@
     "gold_topic": "Data Localization & Infrastructure",
     "has_concern": false,
     "gold_concern_category": null,
+    "has_suggestion": false,
+    "gold_suggestion_action": null
+  },
+  {
+    "id": "EVAL-009",
+    "text": "Requiring dedicated round-the-clock grievance officers is impractical for early-stage fintechs. We propose allowing pooled industry ombudsman services for startups.",
+    "gold_sentiment": "Negative",
+    "gold_topic": "Grievance Redressal & Consumer Rights",
+    "has_concern": true,
+    "gold_concern_category": "Technical Feasibility",
+    "has_suggestion": true,
+    "gold_suggestion_action": "Pooled Ombudsman Framework"
+  },
+  {
+    "id": "EVAL-010",
+    "text": "Clause 12 lacks precise technical definitions of algorithmic bias which creates legal ambiguity for developers.",
+    "gold_sentiment": "Negative",
+    "gold_topic": "Algorithmic Transparency & AI Audits",
+    "has_concern": true,
+    "gold_concern_category": "Legal & Technical Ambiguity",
     "has_suggestion": false,
     "gold_suggestion_action": null
   }

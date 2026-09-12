@@ -1,0 +1,11 @@
+{
+  "name": "policylens-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "npm run dev --prefix frontend",
+    "build:frontend": "npm run build --prefix frontend",
+    "dev:backend": "cd backend && python3 app/main.py",
+    "test:backend": "cd backend && .venv/bin/pytest tests"
+  }
+}

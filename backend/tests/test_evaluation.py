@@ -20,8 +20,15 @@ def test_benchmark_evaluation():
 
     sentiment_correct = 0
     topic_correct = 0
-    concern_detection_correct = 0
-    suggestion_detection_correct = 0
+    concern_true_pos = 0
+    concern_true_neg = 0
+    concern_false_pos = 0
+    concern_false_neg = 0
+
+    sugg_true_pos = 0
+    sugg_true_neg = 0
+    sugg_false_pos = 0
+    sugg_false_neg = 0
 
     total = len(samples)
 
@@ -38,30 +45,54 @@ def test_benchmark_evaluation():
         if topic_res.primary_topic == item["gold_topic"]:
             topic_correct += 1
 
-        # 3. Extraction Evaluation
+        # 3. Concern & Suggestion Extraction Evaluation
         concerns, suggestions = extraction_provider.extract(text, item["id"])
-        has_extracted_concern = len(concerns) > 0
-        has_extracted_suggestion = len(suggestions) > 0
+        has_concern = len(concerns) > 0
+        has_suggestion = len(suggestions) > 0
 
-        if has_extracted_concern == item["has_concern"]:
-            concern_detection_correct += 1
+        # Concern metrics
+        if has_concern and item["has_concern"]:
+            concern_true_pos += 1
+        elif not has_concern and not item["has_concern"]:
+            concern_true_neg += 1
+        elif has_concern and not item["has_concern"]:
+            concern_false_pos += 1
+        elif not has_concern and item["has_concern"]:
+            concern_false_neg += 1
 
-        if has_extracted_suggestion == item["has_suggestion"]:
-            suggestion_detection_correct += 1
+        # Suggestion metrics
+        if has_suggestion and item["has_suggestion"]:
+            sugg_true_pos += 1
+        elif not has_suggestion and not item["has_suggestion"]:
+            sugg_true_neg += 1
+        elif has_suggestion and not item["has_suggestion"]:
+            sugg_false_pos += 1
+        elif not has_suggestion and item["has_suggestion"]:
+            sugg_false_neg += 1
 
     sentiment_acc = sentiment_correct / total
     topic_acc = topic_correct / total
-    concern_acc = concern_detection_correct / total
-    suggestion_acc = suggestion_detection_correct / total
 
-    print(f"\n--- PolicyLens Baseline Research Evaluation (N={total}) ---")
-    print(f"Sentiment Accuracy: {sentiment_acc * 100:.1f}%")
-    print(f"Topic Classification Accuracy: {topic_acc * 100:.1f}%")
-    print(f"Concern Detection Accuracy: {concern_acc * 100:.1f}%")
-    print(f"Suggestion Detection Accuracy: {suggestion_acc * 100:.1f}%")
+    concern_acc = (concern_true_pos + concern_true_neg) / total
+    concern_prec = concern_true_pos / (concern_true_pos + concern_false_pos) if (concern_true_pos + concern_false_pos) > 0 else 1.0
+    concern_rec = concern_true_pos / (concern_true_pos + concern_false_neg) if (concern_true_pos + concern_false_neg) > 0 else 1.0
+    concern_f1 = (2 * concern_prec * concern_rec) / (concern_prec + concern_rec) if (concern_prec + concern_rec) > 0 else 0.0
 
-    # Baseline acceptance thresholds for local heuristic models
-    assert sentiment_acc >= 0.75
-    assert topic_acc >= 0.75
-    assert concern_acc >= 0.75
-    assert suggestion_acc >= 0.75
+    sugg_acc = (sugg_true_pos + sugg_true_neg) / total
+    sugg_prec = sugg_true_pos / (sugg_true_pos + sugg_false_pos) if (sugg_true_pos + sugg_false_pos) > 0 else 1.0
+    sugg_rec = sugg_true_pos / (sugg_true_pos + sugg_false_neg) if (sugg_true_pos + sugg_false_neg) > 0 else 1.0
+    sugg_f1 = (2 * sugg_prec * sugg_rec) / (sugg_prec + sugg_rec) if (sugg_prec + sugg_rec) > 0 else 0.0
+
+    print("\n=======================================================")
+    print(f"PolicyLens Baseline NLP Research Evaluation (N = {total})")
+    print("=======================================================")
+    print(f"Sentiment Accuracy       : {sentiment_acc * 100:.1f}%")
+    print(f"Topic Classification Acc : {topic_acc * 100:.1f}%")
+    print(f"Concern Precision / Recall: {concern_prec * 100:.1f}% / {concern_rec * 100:.1f}% (F1: {concern_f1:.2f})")
+    print(f"Suggestion Prec / Recall  : {sugg_prec * 100:.1f}% / {sugg_rec * 100:.1f}% (F1: {sugg_f1:.2f})")
+    print("=======================================================\n")
+
+    assert sentiment_acc >= 0.80
+    assert topic_acc >= 0.80
+    assert concern_f1 >= 0.80
+    assert sugg_f1 >= 0.80
